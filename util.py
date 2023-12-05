@@ -1,5 +1,8 @@
 # util.py
 
+import pandas as pd
+import numpy as np
+from IPython.core.display import display
 
 #各列の欠損値を表示する関数
 def display_null_number(df):
