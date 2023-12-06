@@ -44,3 +44,18 @@ def create_id(df,cols):
   df_create_id
 
   return df_create_id
+
+
+#クロス集計した時の各行の値を一つのパターンとしてdict型で保存する関数
+def pattern_crosstab(df,crosstab_row,crosstab_col):
+  df_pattern_crosstab=pd.crosstab(crosstab_row, crosstab_col)
+  pattern_dict=df_pattern_crosstab.to_dict(orient='records')
+  dict_num=len(pattern_dict)
+  pattern_list=list(range(dict_num))
+  for i in range(dict_num):
+    pattern_list[i]=pattern_dict[i]
+    df_pattern_crosstab[f'{crosstab_col.name}_pattern']=pattern_list
+
+  display(df_pattern_crosstab[[f'{crosstab_col.name}_pattern']])
+
+  return df_pattern_crosstab[[f'{crosstab_col.name}_pattern']]
