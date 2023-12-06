@@ -45,9 +45,16 @@ def create_id(df,cols):
 
   return df_create_id
 
+#クロス集計した時の各行の値を一つのパターンとしてdict型で返す関数
+def pattern_crosstab_to_dict(df,crosstab_row,crosstab_col):
+  df_pattern_crosstab=pd.crosstab(crosstab_row, crosstab_col)
+  pattern_dict=df_pattern_crosstab.to_dict(orient='index')
+  
+  return pattern_dict
 
-#クロス集計した時の各行の値を一つのパターンとしてdict型で保存する関数
-def pattern_crosstab(df,crosstab_row,crosstab_col):
+
+#クロス集計した各パターンの値をdict型のstrとして保持するDataFrameを返す関数
+def pattern_crosstab_to_df(df,crosstab_row,crosstab_col):
   df_pattern_crosstab=pd.crosstab(crosstab_row, crosstab_col)
   pattern_dict=df_pattern_crosstab.to_dict(orient='records')
   dict_num=len(pattern_dict)
