@@ -6,12 +6,13 @@ from IPython.core.display import display
 
 #各列の欠損値を表示する関数
 def display_null_number(df):
-  null_df=pd.DataFrame(df.isnull().sum().sort_values(ascending=False)).copy()
+  null_df=pd.DataFrame(df.isnull().sum()).copy()
   null_df['null数']=null_df[0]
-  display(null_df[['null数']][null_df['null数']>0])
+  
+  return null_df[['null数']]
 
 
-#各列に格納されている値のTypeの種類と数をdfの形で表示する関数
+#各列に格納されている値のTypeの種類と数をdict型でdfに格納して形で返す関数
 def type_values(df):
   df_types=df.copy()
   cols=df_types.columns
@@ -28,6 +29,14 @@ def type_values(df):
   df_type_dict=df_type_dict[['type:数']]
 
   return df_type_dict
+
+
+#各列に格納されている値のTypeの種類と数を一つずつ表示する関数
+def display_type_values_by_cols(df):
+  cols=df.columns
+  for i in range(df.shape[1]):
+    types=pd.DataFrame(df[cols[i]].apply(lambda x:type(x)).value_counts()).T
+    display(types)
 
 
 #任意の列の値を結合して、新しいIdを作成する関数
@@ -66,3 +75,41 @@ def pattern_crosstab_to_df(df,crosstab_row,crosstab_col):
   display(df_pattern_crosstab[[f'{crosstab_col.name}_pattern']])
 
   return df_pattern_crosstab[[f'{crosstab_col.name}_pattern']]
+
+
+#dataFrameの各列の最大の文字列/桁数をdataframe型で返す関数
+def df_max_digits(df):
+  cols=df.columns
+  digits_list=list(range(len(cols)))
+  for i in range(len(cols)):
+    digits_list[i]=series_max_digits(df[cols[i]])
+  df_digits=pd.DataFrame(digits_list,index=cols)
+
+  return df_digits
+
+
+#Series型のデータの中で最大の文字列/桁数を返す関数
+def series_max_digits(data_series):
+    """
+    pandasのSeriesが与えられたとき、Seriesが数値型の場合は数値の最大桁数を返し、文字列型の場合は最大文字数を返す。
+
+    引数:
+        series (pd.Series): pandasのSeries
+
+    戻り値:
+        int: Seriesの要素の中の最大の桁数もしくは文字数
+    """
+    # seriesが空の場合は0を返す
+    if len(data_series) == 0:
+        return 0
+
+    # seriesの型に応じて処理を分ける
+    # seriesが数値型の場合は数値の桁数を返す
+    if data_series.dtype == 'int64':
+        return int(len(data_series.abs().max().astype(str)))
+    # seriesが浮動小数点型の場合は小数点以下の桁数を返す
+    elif data_series.dtype == 'float64':
+        return int(data_series.abs().astype(str).str.len().max()-1)
+    # seriesが文字列型の場合は文字数を返す
+    elif data_series.dtype == 'object':
+       return data_series.str.len().max()
