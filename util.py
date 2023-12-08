@@ -40,16 +40,16 @@ def display_type_values_by_cols(df):
 
 
 #任意の列の値を結合して、新しいIdを作成する関数
-def create_id(df,cols):
+def create_id(df,cols,sep,new_id_name):
 #colsは結合したい列名のリスト
   df_create_id=df[cols].copy()
-  df_create_id['new_id']=df_create_id[cols[0]].astype('str')
+  df_create_id['new_id_name']=df_create_id[cols[0]].astype('str')
   for i in range(1,len(cols)):
     df_create_id[cols[i]]=df_create_id[cols[i]].astype('str')
-    df_create_id['new_id']=df_create_id['new_id'].str.cat(df_create_id[cols[i]])
+    df_create_id[new_id_name]=df_create_id['new_id_name'].str.cat(df_create_id[cols[i]],sep=sep)
   
-  df_create_id[['new_id']]
-  df_create_id=pd.concat([df_create_id[['new_id']],df],axis=1)
+  df_create_id[['new_id_name']]
+  df_create_id=pd.concat([df_create_id[['new_id_name']],df],axis=1)
   df_create_id
 
   return df_create_id
@@ -113,3 +113,10 @@ def series_max_digits(data_series):
     # seriesが文字列型の場合は文字数を返す
     elif data_series.dtype == 'object':
        return data_series.str.len().max()
+    
+#ある値を対応する別の値に変換する関数
+def value_to_dummy(x,target_list,dummy_list):
+  for i in range(len(target_list)):
+    if x==target_list[i]:
+        x=dummy_list[i]
+  return x
