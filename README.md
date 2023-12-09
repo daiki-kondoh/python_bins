@@ -3,6 +3,6 @@
 
 | NO. | name | content | 
 | --- | ---- | ------- | 
-| 1   | test | test    | 
+| 1   | display_null_number | 各列の欠損値を返す関数| 
 | 2   | test | test    | 
 | 3   | test | test    | 
