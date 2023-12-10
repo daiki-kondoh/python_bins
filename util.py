@@ -113,7 +113,14 @@ def series_max_digits(data_series):
     # seriesが文字列型の場合は文字数を返す
     elif data_series.dtype == 'object':
        return data_series.str.len().max()
-    
+
+#ある値を対応する別の値に変換し、dfの形で返す関数
+def df_to_dummy(df,series_name,target_list,dummy_list):
+  df_dummy=df.copy()
+  df_dummy[series_name]=df_dummy[series_name].apply(lambda x:value_to_dummy(x,target_list,dummy_list))
+  
+  return df_dummy
+
 #ある値を対応する別の値に変換する関数
 def value_to_dummy(x,target_list,dummy_list):
   for i in range(len(target_list)):
