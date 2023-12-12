@@ -149,3 +149,17 @@ def exe_mecab(text):
       mecab_list=mecab.split('\n')
  
   return mecab_list
+
+
+#dfの指定した列をベクトルとみなしてコサイン類似度を計算し、その類似度行列をdfで返す関数
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn import preprocessing
+
+def cul_cos_similarity_matrix(df,cols,id):
+  ss = preprocessing.StandardScaler()
+  standarized_df = ss.fit_transform(df[cols].fillna(0))
+  cos_similarity_df = pd.DataFrame(cosine_similarity(standarized_df))
+  cos_similarity_df=cos_similarity_df.set_index(df['ID'])
+  cos_similarity_df.columns=df[id]
+
+  return cos_similarity_df
