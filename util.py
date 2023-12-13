@@ -43,13 +43,13 @@ def display_type_values_by_cols(df):
 def create_id(df,cols,sep,new_id_name):
 #colsは結合したい列名のリスト
   df_create_id=df[cols].copy()
-  df_create_id['new_id_name']=df_create_id[cols[0]].astype('str')
+  df_create_id[new_id_name]=df_create_id[cols[0]].astype('str')
   for i in range(1,len(cols)):
     df_create_id[cols[i]]=df_create_id[cols[i]].astype('str')
-    df_create_id[new_id_name]=df_create_id['new_id_name'].str.cat(df_create_id[cols[i]],sep=sep)
+    df_create_id[new_id_name]=df_create_id[new_id_name].str.cat(df_create_id[cols[i]],sep=sep)
   
-  df_create_id[['new_id_name']]
-  df_create_id=pd.concat([df_create_id[['new_id_name']],df],axis=1)
+  df_create_id[[new_id_name]]
+  df_create_id=pd.concat([df_create_id[[new_id_name]],df],axis=1)
   df_create_id
 
   return df_create_id
