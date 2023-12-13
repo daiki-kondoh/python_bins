@@ -127,3 +127,10 @@ def value_to_dummy(x,target_list,dummy_list):
     if x==target_list[i]:
         x=dummy_list[i]
   return x
+
+#valueを基準にdictをソートする
+def sort_dict_by_value(dic):
+  sorted_list_from_dict=sorted(dic.items(),key=lambda value:value[1])
+  sorted_dict=dict( (key,value) for key,value in sorted_list_from_dict)
+
+  return sorted_dict

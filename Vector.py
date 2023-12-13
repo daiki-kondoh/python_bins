@@ -36,3 +36,14 @@ def MDS_scatter(precoputed_df):
   text=points.mark_text(align='left',baseline='middle',dx=7).encode(text='label')
 
   return points+text
+
+
+#KMeansによる分類を実行する
+#df=df
+#n_clusters=分類するクラスター数
+def exe_KMeans(df,n_clusters):
+  data=df.values
+  model=KMeans(n_clusters=n_clusters)
+  model.fit(data)
+
+  return model.labels_

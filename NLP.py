@@ -126,7 +126,6 @@ def judge_contain_value_in_list(value,lis):
 
 #textをランダムな順番に入れ替えて返す
 import random
-
 def rondom_sort_char(text):
   rondom_sorted_char=''.join(random.sample(text[::],len(text)))
   return rondom_sorted_char
