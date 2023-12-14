@@ -162,3 +162,28 @@ def cul_cos_similarity_matrix(df,cols,id):
   cos_similarity_df.columns=df[id]
 
   return cos_similarity_df
+
+
+#spacyを用いて、text間のコサイン類似度を計算する
+import spacy
+
+# Languageクラス 変数名をnlpで宣言するのが一般的（spaCy推奨）
+nlp: spacy.Language = spacy.load('ja_ginza')
+def cul_text_similarity_by_spacy(text1,text2):
+  doc1=nlp(text1)
+  doc2=nlp(text2)
+
+  similarity=doc1.similarity(doc2)
+
+  return similarity
+
+
+#spacyを用いて、textから名詞句を抜き出す
+import spacy
+def extract_chunk_by_spacy(text):
+  chunk_list=[]
+  doc=nlp(text)
+  for chunk in doc.noun_chunks:
+    chunk_list.append(chunk)
+
+  return chunk_list
