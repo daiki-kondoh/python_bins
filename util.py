@@ -4,13 +4,6 @@ import pandas as pd
 import numpy as np
 from IPython.core.display import display
 
-#各列の欠損値を表示する関数
-def display_null_number(df):
-  null_df=pd.DataFrame(df.isnull().sum()).copy()
-  null_df['null数']=null_df[0]
-  
-  return null_df[['null数']]
-
 #二つのlistからdictを作成する
 def lists_to_dict(key_list,value_list):
   '''
@@ -47,6 +40,15 @@ def type_value(df):
     type_num_dict_by_col=lists_to_dict(cols,type_num_list)
     
     return type_num_dict_by_col
+
+
+#各列の欠損値を表示する関数
+def display_null_number(df):
+  null_df=pd.DataFrame(df.isnull().sum()).copy()
+  null_df['null数']=null_df[0]
+  
+  return null_df[['null数']]
+
 
 
 #各列に格納されている値のTypeの種類と数を一つずつ表示する関数
