@@ -11,24 +11,42 @@ def display_null_number(df):
   
   return null_df[['null数']]
 
+#二つのlistからdictを作成する
+def lists_to_dict(key_list,value_list):
+  '''
+引数：
+key_list=キーになる値のリスト
+value_list=valueになる値のリスト
 
-#各列に格納されている値のTypeの種類と数をdict型でdfに格納して形で返す関数
-def type_values(df):
-  df_types=df.copy()
-  cols=df_types.columns
-  df_type_dict=pd.DataFrame(np.arange(df_types.shape[1]).reshape(df_types.shape[1], 1),index=cols)
-  df_type_dict['type:数']=df_type_dict[0]
-  for i in range(0,len(cols)):
-    types_list=list(range(df_types.shape[0]))
-    for j in range(0,df_types.shape[0]):
-      value_type=str(type(df_types.at[df_types.index[j],cols[i]]))
-      types_list[j]=value_type
-    df_types[cols[i]]=types_list
-    type_dict=df_types[cols[i]].value_counts().to_dict()
-    df_type_dict['type:数'][i]=type_dict
-  df_type_dict=df_type_dict[['type:数']]
+帰値：
+dict_from_list={key_list[0]:value_list[0],...}
+'''
 
-  return df_type_dict
+  dict_from_list = dict(zip(key_list, value_list))
+
+  return dict_from_list
+
+
+#各列に格納されている値のTypeの種類と数をdict型で返す関数
+def type_value(df):
+    '''
+    引数：
+    df=対象のdf
+    -------------
+    帰値：
+    type_num_dict_by_col={列名:{type:数},列名:{type:数}...}
+    '''
+    cols=df.columns
+    type_num_list=[]
+    for i in range(df.shape[1]):
+        type_value_counts=df[cols[i]].map(type).value_counts()
+        key_list=list(type_value_counts.index)
+        value_list=list(type_value_counts)
+        type_num_dict=lists_to_dict(key_list,value_list)
+        type_num_list.append(type_num_dict)
+    type_num_dict_by_col=lists_to_dict(cols,type_num_list)
+    
+    return type_num_dict_by_col
 
 
 #各列に格納されている値のTypeの種類と数を一つずつ表示する関数
