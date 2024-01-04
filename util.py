@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from IPython.core.display import display
 
 #二つのlistからdictを作成する
@@ -41,6 +42,25 @@ def type_value(df):
     
     return type_num_dict_by_col
 
+#各列のデータの出現頻度をhist化する関数
+def plot_hist_data(df):
+    '''
+    引数：
+    df=対象のdf
+    -------------
+    帰値：
+    histの画像
+    '''
+    data.hist()
+    plt.tight_layout() 
+    
+    int_cols=list(data.describe().columns)
+    str_df=data.drop(int_cols,axis=1)
+    str_cols=list(str_df.columns)
+    
+    for i in range(len(str_cols)):
+        data[str_cols[i]].value_counts().plot(kind="bar")
+        plt.show()
 
 #各列の欠損値を表示する関数
 def display_null_number(df):
