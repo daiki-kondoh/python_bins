@@ -28,3 +28,47 @@ def test_type_value():
     sample_df_2=pd.DataFrame(data=input_data_list_2,columns=input_column_list_2)
     
     assert type_value(sample_df_2)=={'test0':{str: 2, int: 1}, 'test1':{float: 3}, 'test2':{str: 3}}
+
+def test_extract_str_data():
+    input_columns_list=['str0','str1','int0']
+    input_data_list=[['data0','data0',0],
+                   ['data1','data1',1],
+                   ['data2','data2',0]]
+    input_expect_columns_list=['str0','str1']
+    input_expect_data_list=[['data0','data0'],
+                   ['data1','data1'],
+                   ['data2','data2']]
+    sample_df=pd.DataFrame(data=input_data_list,columns=input_columns_list)
+    expect_df=pd.DataFrame(data=input_expect_data_list,columns=input_expect_columns_list)
+    diff_df=pd.concat([extract_str_data(sample_df),expect_df]).drop_duplicates(keep=False)
+    #extract_str_data(sample_df)とexpect_dfが一致していれば、dfiif_dfの行数は0,列数はexpect_dfの列数(=2)になるはず
+    assert diff_df.shape==(0, 2)
+    
+    input_data_list_2=[['data0','data0',0],
+                   ['data1','data1','data1'],
+                   ['data2','data2','data2']]
+    sample_df_2=pd.DataFrame(data=input_data_list_2,columns=input_columns_list)
+    diff_df=pd.concat([extract_str_data(sample_df_2),expect_df]).drop_duplicates(keep=False)
+    assert diff_df.shape==(0, 2)
+
+def test_extract_int_float_data():
+    input_columns_list=['str0','float0','int0','float1','int1']
+    input_data_list=[['data0',0.5,0,-1.0,-1],
+                   ['data1',1.5,1,-2.0,-2],
+                   ['data2',2.5,2,-3.0,-3]]
+    input_expect_columns_list=['float0','int0','float1','int1']
+    input_expect_data_list=[[0.5,0,-1.0,-1],
+                   [1.5,1,-2.0,-2],
+                   [2.5,2,-3.0,-3]]
+    sample_df=pd.DataFrame(data=input_data_list,columns=input_columns_list)
+    expect_df=pd.DataFrame(data=input_expect_data_list,columns=input_expect_columns_list)
+    diff_df=pd.concat([extract_int_float_data(sample_df),expect_df]).drop_duplicates(keep=False)
+    #extract_str_data(sample_df)とexpect_dfが一致していれば、dfiif_dfの行数は0,列数はexpect_dfの列数(=4)になるはず
+    assert diff_df.shape==(0, 4)
+    
+    input_data_list_2=[[0,0.5,0,-1.0,-1],
+                   ['data1',1.5,1,-2.0,-2],
+                   ['data2',2.5,2,-3.0,-3]]
+    sample_df_2=pd.DataFrame(data=input_data_list_2,columns=input_columns_list)
+    diff_df=pd.concat([extract_int_float_data(sample_df_2),expect_df]).drop_duplicates(keep=False)
+    assert diff_df.shape==(0, 4)
