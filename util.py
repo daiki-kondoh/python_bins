@@ -42,25 +42,49 @@ def type_value(df):
     
     return type_num_dict_by_col
 
-#各列のデータの出現頻度をhist化する関数
-def plot_hist_data(df):
+
+#全ての値のtypeがstrである列を抽出する
+def extract_str_data(df):
     '''
     引数：
     df=対象のdf
     -------------
     帰値：
-    histの画像
+    str_df=全ての値がstrである列を抽出したdf
     '''
-    data.hist()
-    plt.tight_layout() 
+    cols=df.columns
+    str_cols=[]
+
+    for cols_i in range(len(cols)):
+        str_bool=all([type(data_j) == type('str') for data_j in df[cols[cols_i]]])
+        if str_bool:
+            str_cols.append(cols[cols_i])
     
-    int_cols=list(data.describe().columns)
-    str_df=data.drop(int_cols,axis=1)
-    str_cols=list(str_df.columns)
+    str_df=df[str_cols]
+    return str_df
+
+
+#全ての値のtypeがintあるいはfloatである列を抽出する
+def extract_int_float_data(df):
+    '''
+    引数：
+    df=対象のdf
+    -------------
+    帰値：
+    int_float_df=全ての値がintあるいはfloatである列を抽出したdf
+    '''
+    cols=df.columns
+    int_float_cols=[]
+
+    for cols_i in range(len(cols)):
+        int_float_bool=all([type(data_j) == type(0) or type(data_j) == type(1.0) for data_j in df[cols[cols_i]]])
+        if int_float_bool:
+            int_float_cols.append(cols[cols_i])
+            
+    int_float_df=df[int_float_cols]
     
-    for i in range(len(str_cols)):
-        data[str_cols[i]].value_counts().plot(kind="bar")
-        plt.show()
+    return int_float_df
+
 
 #各列の欠損値を表示する関数
 def display_null_number(df):
