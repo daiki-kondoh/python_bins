@@ -178,6 +178,7 @@ def series_max_digits(data_series):
     elif data_series.dtype == 'object':
        return data_series.str.len().max()
 
+
 #ある値を対応する別の値に変換し、dfの形で返す関数
 def df_to_dummy(df,series_name,target_list,dummy_list):
   df_dummy=df.copy()
