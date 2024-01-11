@@ -26,6 +26,7 @@ def plot_compare_hist_data(df1,df2,label1,label2):
             plt.xticks(rotation=90)
             plt.show()
 
+
 #二つのデータを比較した箱ひげ図を出力
 #列名が異なる場合,データに数値以外が含まれる場合はskip
 def plot_compare_boxplot_data(df1,df2,label1,label2):

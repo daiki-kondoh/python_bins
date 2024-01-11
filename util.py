@@ -178,6 +178,7 @@ def series_max_digits(data_series):
     elif data_series.dtype == 'object':
        return data_series.str.len().max()
 
+
 #dicのkeyので指定した値をvalueに変換したdfを返す関数
 def df_value_to_dummy(df,dic):
     '''
@@ -193,6 +194,7 @@ def df_value_to_dummy(df,dic):
     for cols_i in cols:
         df_dummy[cols_i]=df_dummy[cols_i].apply(lambda x:value_to_dummy(x,dic))
     return df_dummy
+
 
 #dicのkeyので指定した値を変換する関数
 def value_to_dummy(value,dic):
