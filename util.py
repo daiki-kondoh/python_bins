@@ -178,21 +178,41 @@ def series_max_digits(data_series):
     elif data_series.dtype == 'object':
        return data_series.str.len().max()
 
+#dicのkeyので指定した値をvalueに変換したdfを返す関数
+def df_value_to_dummy(df,dic):
+    '''
+    引数：
+    df=対象のdf
+    dic={変換したい値：変換後の値、・・・}
+    -------------
+    戻り値：
+    df_dummy=値の変換を行ったdf
+    '''
+    cols=df.columns
+    df_dummy=df.copy()
+    for cols_i in cols:
+        df_dummy[cols_i]=df_dummy[cols_i].apply(lambda x:value_to_dummy(x,dic))
+    return df_dummy
 
-#ある値を対応する別の値に変換し、dfの形で返す関数
-def df_to_dummy(df,series_name,target_list,dummy_list):
-  df_dummy=df.copy()
-  df_dummy[series_name]=df_dummy[series_name].apply(lambda x:value_to_dummy(x,target_list,dummy_list))
-  
-  return df_dummy
-
-#ある値を対応する別の値に変換する関数
-def value_to_dummy(x,target_list,dummy_list):
-  for i in range(len(target_list)):
-    if x==target_list[i]:
-        x=dummy_list[i]
-  return x
-
+#dicのkeyので指定した値を変換する関数
+def value_to_dummy(value,dic):
+    '''
+    引数：
+    value=対象の値
+    dic={変換したい値：変換後の値、・・・}
+    -------------
+    戻り値：
+    dic[key]=変換後の値
+    value=dicのkeyに対象の値がなかった場合にそのまま返す
+    '''
+    keys_list=list(dic.keys())
+    for keys_list_i in range(len(keys_list)):
+        key=keys_list[keys_list_i]
+        if key==value:
+            return dic[key]
+        elif keys_list_i==len(keys_list)-1:
+            return value
+        
 #valueを基準にdictをソートする
 def sort_dict_by_value(dic):
   sorted_list_from_dict=sorted(dic.items(),key=lambda value:value[1])
