@@ -216,8 +216,8 @@ def value_to_dummy(value,dic):
             return value
         
 #valueを基準にdictをソートする
-def sort_dict_by_value(dic):
-  sorted_list_from_dict=sorted(dic.items(),key=lambda value:value[1])
+def sort_dict_by_value(dic,reverse):
+  sorted_list_from_dict=sorted(dic.items(),key=lambda value:value[1],reverse=reverse)
   sorted_dict=dict( (key,value) for key,value in sorted_list_from_dict)
 
   return sorted_dict
