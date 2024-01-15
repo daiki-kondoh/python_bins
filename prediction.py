@@ -21,12 +21,11 @@ def kfold_score_RandomForestClassifier(x,y,n_split):
     scores_list=accuracyのlist
     predict_model=分類の予測モデル
     '''
-    def kfold_score_RandomForestClassifier(x,y,n_split):
-        cv = KFold(n_splits=n_split, random_state=1, shuffle=True)
-        predicti_model = RandomForestClassifier(random_state=1)
-        scores_list = cross_val_score(predicti_model, x, y, scoring='accuracy', cv=cv, n_jobs=-1)
+    cv = KFold(n_splits=n_split, random_state=1, shuffle=True)
+    predicti_model = RandomForestClassifier(random_state=1)
+    scores_list = cross_val_score(predicti_model, x, y, scoring='accuracy', cv=cv, n_jobs=-1)
         
-        return scores_list,predicti_model
+    return scores_list,predicti_model
 
 def cul_importance(x,y,model,num):
     '''
