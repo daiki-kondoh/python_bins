@@ -5,11 +5,11 @@ import pprint
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import KFold
-from util import lists_to_dict,sort_dict_by_value
+from util import lists_to_dict,sort_dict_by_value,extract_dict
 import random
 random.seed(314)
 
-
+#RandomForestの分類予測をk-fold法で行い、その結果を返す関数
 def kfold_score_RandomForestClassifier(x,y,n_split):
     '''
     引数：
@@ -27,6 +27,7 @@ def kfold_score_RandomForestClassifier(x,y,n_split):
         
     return scores_list,predicti_model
 
+#指定した数の特徴量の重要度をソートしてdictで返す関数
 def cul_importance(x,y,model,num):
     '''
     引数：
@@ -45,6 +46,6 @@ def cul_importance(x,y,model,num):
     importances_dict=lists_to_dict(labels,importances_list)
     importances_dict_sorted=sort_dict_by_value(importances_dict,reverse=True)
 
-    result = {key:importances_dict_sorted[key] for key in list(importances_dict_sorted)[:num]} 
+    result = extract_dict(importances_dict_sorted,num)
     
     return result

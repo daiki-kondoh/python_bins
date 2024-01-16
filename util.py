@@ -221,3 +221,17 @@ def sort_dict_by_value(dic,reverse):
   sorted_dict=dict( (key,value) for key,value in sorted_list_from_dict)
 
   return sorted_dict
+
+#dictを先頭から指定した数だけ抽出する
+def extract_dict(dic,num):
+    '''
+    引数：
+    dic=dic
+    num=抽出する数
+    ーーーー
+    戻り値：
+    extract_dict=抽出したdict
+    '''
+    extract_dict = {key:dic[key] for key in list(dic)[:num]} 
+    
+    return extract_dict
