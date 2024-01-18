@@ -5,6 +5,8 @@ import pprint
 from sklearn.model_selection import cross_val_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import KFold
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
 from util import lists_to_dict,sort_dict_by_value,extract_dict
 import random
 random.seed(314)
@@ -49,3 +51,25 @@ def cul_importance(x,y,model,num):
     result = extract_dict(importances_dict_sorted,num)
     
     return result
+
+#モデルによる予測結果の混同行列を表示する
+def print_confusion_matrix(x,y,model,labels):
+    '''
+    引数：
+    x=独立変数
+    y＝目的変数
+    model=トレーニング済みのモデル
+    labels=混同行列のラベル（上から順番）
+    ーーーーーーーー
+    戻り値：
+    混同行列
+    （左上から順に
+    [[TP,FN]
+     [FP,TN]）
+    '''
+    x_train,x_test,y_train,y_test=train_test_split(x,y,random_state=1)
+    model.fit(x_train,y_train)
+    y_pred=model.predict(x_test)
+    cm=confusion_matrix(y_test, y_pred,labels=labels)
+    
+    return cm
