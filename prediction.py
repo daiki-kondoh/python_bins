@@ -73,3 +73,38 @@ def print_confusion_matrix(x,y,model,labels):
     cm=confusion_matrix(y_test, y_pred,labels=labels)
     
     return cm
+
+#予測結果と実際の結果を比較する
+def compare_pred(x,y,model):
+    '''
+    引数：
+    x=独立変数
+    y＝目的変数
+    model=トレーニング済みのモデル
+    ーーーーーーーー
+    戻り値：
+    result=モデルに予測結果と実際の結果を比較したTrue/Falseのリスト
+    '''
+    y_test,y_pred=return_predict_true(x,y,model)
+    result_list=y_pred==y_test
+
+    return result_list
+
+#予測結果と実際の結果を返す
+def return_predict_true(x,y,model):
+    '''
+    引数：
+    x=独立変数
+    y＝目的変数
+    model=トレーニング済みのモデル
+    --------
+    戻り値：
+    y_test=実際の結果
+    y_pred=モデルによる予測値
+    '''
+    y=np.reshape(y,-1)
+    x_train,x_test,y_train,y_test=train_test_split(x,y,random_state=1)
+    model.fit(x_train,y_train)
+    y_pred=model.predict(x_test)
+    
+    return y_test,y_pred
