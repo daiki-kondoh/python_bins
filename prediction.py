@@ -108,3 +108,13 @@ def return_predict_true(x,y,model):
     y_pred=model.predict(x_test)
     
     return y_test,y_pred
+
+def gridsearch(x,y,model,scoring):
+    gridsearch = GridSearchCV(estimator = model,        # モデル
+                          param_grid = param(),  # チューニングするハイパーパラメータ
+                          scoring = scoring     # スコアリング
+                             )
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25)
+    gridsearch.fit(x_train, y_train)
+    print('Best params: {}'.format(gridsearch.best_params_)) 
+    print('Best Score: {}'.format(gridsearch.best_score_))
