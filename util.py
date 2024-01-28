@@ -3,6 +3,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import json
 from IPython.core.display import display
 
 #二つのlistからdictを作成する
@@ -235,3 +236,31 @@ def extract_dict(dic,num):
     extract_dict = {key:dic[key] for key in list(dic)[:num]} 
     
     return extract_dict
+
+#dict型のデータをjsonファイルとして、カレントディレクトリに保存する
+def save_dict_to_json(filename,dic):
+    '''
+    引数：
+    filename=保存したいファイルの名前
+    dic=保存したいdict
+    '''
+    json_data=json.dumps(dic)
+    save_json(filename,json_data)
+
+#jsonデータをjsonファイルとしてカレントディレクトリに保存する
+def save_json(filename,json_data):
+    '''
+    引数：
+    filename=保存したいファイルの名前
+    json_data=保存したいjsonデータ
+    '''
+    with open(filename, 'w') as json_file:
+        json.dump(json_data, json_file)
+
+#カレントディレクトリのjsonデータをdictデータとして読み込む
+def load_json(filename):
+    file = open('data.json')
+    json_data = json.load(file)
+    dic=json.loads(json_data)
+    
+    return dic
