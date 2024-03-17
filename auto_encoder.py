@@ -120,7 +120,26 @@ class Autoencoder(nn.Module):
             score = torch.norm(X - output, dim=1).cpu().numpy()
 
         return score
-
+    
+    def calc_r2_score(self,X_feature,model):
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        df_X_true = pd.DataFrame(X_feature)
+        X = torch.Tensor(X_feature).to(device)
+        X_pred = model(X)
+        df_X_pred = pd.DataFrame(X_pred.detach().numpy())
+        
+        dict_r2 ={}
+        
+        for col in df_X_true.columns:
+            y_true = df_X_test[col].to_list()
+            y_pred = df_X_pred[col].to_list()
+            r2 = r2_score(y_true, y_pred) 
+            dict_r2[col] = r2
+        
+        return dict_r2
+    
+#ae = Autoencoder(input_dim=X_train.shape[1], hidden_dim=X_train.shape[1] // 2)
+#ae.fit(X_train, X_valid)
 
 def plot_MSE(X_valid,y_valid):
     # 検証セットのスコア計算
