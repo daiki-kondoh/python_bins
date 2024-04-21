@@ -154,6 +154,8 @@ def exe_mecab(text):
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn import preprocessing
 
+#spacyを用いて、text間のコサイン類似度を計算する
+import spacy
 def cul_cos_similarity_matrix(df,cols,id):
   ss = preprocessing.StandardScaler()
   standarized_df = ss.fit_transform(df[cols].fillna(0))
@@ -164,8 +166,6 @@ def cul_cos_similarity_matrix(df,cols,id):
   return cos_similarity_df
 
 
-#spacyを用いて、text間のコサイン類似度を計算する
-import spacy
 
 # Languageクラス 変数名をnlpで宣言するのが一般的（spaCy推奨）
 nlp: spacy.Language = spacy.load('ja_ginza')
